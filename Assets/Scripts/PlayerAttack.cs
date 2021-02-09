@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody2D;
     private ContactFilter2D _contactFilter;
-    private Movement _state;
+    private PlayerMovement _state;
 
     private readonly RaycastHit2D[] results = new RaycastHit2D[1];
 
@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _state = GetComponent<Movement>();
+        _state = GetComponent<PlayerMovement>();
 
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(LayerMask);
@@ -29,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if(_state.PlayerDirectionState == Movement.DirectionState.Left)
+        if(_state.PlayerDirectionState == PlayerMovement.DirectionState.Left)
         {
             Kill(Vector2.left);
         }
