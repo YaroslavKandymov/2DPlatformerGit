@@ -8,9 +8,9 @@ public class CoinSpawn : MonoBehaviour
     [SerializeField] private int _coinCount;
 
     private Transform[] _points;
-    private int _rnd;
+    private int _random;
     private List<int> _numberPoints;
-    
+
     private void Start()
     {
         _points = new Transform[_money.childCount];
@@ -22,18 +22,36 @@ public class CoinSpawn : MonoBehaviour
             _points[i] = _money.GetChild(i);
         }
 
-        for (int i = 0; i < _coinCount; i++)
+        GenerateRandomPoints();
+        SpawnCoins();
+    }
+
+    private void GenerateRandomPoints()
+    {
+        while (_numberPoints.Count < _coinCount)
         {
-            _rnd = Random.Range(0, _money.childCount);
-            if (_numberPoints.Contains(_rnd))
+            _random = CreateRandomNumber(_money.childCount);
+            if (_numberPoints.Contains(_random))
             {
-                i--;
+                _random = CreateRandomNumber(_money.childCount);
             }
             else
             {
-                _numberPoints.Add(_rnd);
-                Instantiate(_coin, _points[_rnd].position, Quaternion.identity);
+                _numberPoints.Add(_random);
             }
         }
+    }
+
+    private void SpawnCoins()
+    {
+        foreach (var point in _numberPoints)
+        {
+            Instantiate(_coin, _points[point].position, Quaternion.identity);
+        }
+    }
+
+    private int CreateRandomNumber(int maxNumber)
+    {
+        return Random.Range(0, maxNumber);
     }
 }
